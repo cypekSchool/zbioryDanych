@@ -1,30 +1,67 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Main
 {
     public static void main(String[] args)
     {
+        ArrayList<Integer> randomNumbers = getRandomNumbers(6, true);
+        System.out.println("Wprowadź liczby:");
+        ArrayList<Integer> userNumbers = getNumbersFromInput(6);
 
-
-        int[] randomNumbers = new int[6];
-
-        for (int i = 0; i < randomNumbers.length; i++) {
-            randomNumbers[i] = (int)(Math.random() * 100);
-        }
-
-        for (int number : randomNumbers)
+        ArrayList<Integer> hitNumbers = new ArrayList<>();
+        for (int randomNumber : randomNumbers)
         {
-            System.out.print(number + ", ");
+            if (userNumbers.contains(randomNumber))
+            {
+                hitNumbers.add(randomNumber);
+            }
         }
 
-
-        ArrayList<Integer> randomNumbersList = new ArrayList<>();
-
-        for (int i = 0; i < 6; i++)
-        {
-            randomNumbersList.add( (int)(Math.random() * 100) );
-        }
-
-        System.out.println(randomNumbersList);
+        System.out.println("Liczby trafione:");
+        printIterable(hitNumbers);
     }
+
+    /**
+     * @param amount defines how many numbers will be inserted into ArrayList
+     * @param distinct defines if numbers will be distinct
+     * @return ArrayList of random Integers
+     */
+    private static ArrayList<Integer> getRandomNumbers(int amount, boolean distinct)
+    {
+        ArrayList<Integer> randomNumbers = new ArrayList<>();
+
+        for (int i = 0; i < amount; i++)
+        {
+            int newInt;
+            do {
+                newInt = (int)(Math.random() * 100);
+            }
+            while (distinct && randomNumbers.contains(newInt));
+            randomNumbers.add( newInt );
+        }
+
+        return randomNumbers;
+    }
+
+    private static ArrayList<Integer> getNumbersFromInput(int amount)
+    {
+        Scanner keyboard = new Scanner(System.in);
+        ArrayList<Integer> userNumbers = new ArrayList<>();
+
+        for (int i = 0; i < amount; i++)
+        {
+            userNumbers.add(keyboard.nextInt());
+        }
+
+        return userNumbers;
+    }
+
+    private static void printIterable(Iterable container)
+    {
+        for (var item : container) {
+            System.out.print(item + ", ");
+        }
+    }
+
 }
